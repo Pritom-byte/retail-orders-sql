@@ -12,20 +12,25 @@
 -- ------------------------------------------------------------
 
 -- Q1. Which products are running low on stock?
---     (products table, filter on stock_qty, sort smallest first)
 
-
+SELECT product_name, stock_qty
+FROM products
+WHERE stock_qty < 10
+ORDER BY stock_qty ASC;
 
 
 -- Q2. Which customers are in the West region?
 
-
+SELECT customer_name, region
+FROM customers
+WHERE region = 'West';
 
 
 -- Q3. Which employees have been here longest?
---     (earliest date_employed first)
 
-
+SELECT employee_name, date_employed
+FROM employees
+ORDER BY date_employed ASC;
 
 
 -- ------------------------------------------------------------
@@ -49,7 +54,6 @@
 -- ------------------------------------------------------------
 
 -- Q6. Total revenue by region.
---     orders → customers (for region), orders → products (for price)
 
 
 
@@ -69,15 +73,12 @@
 -- ------------------------------------------------------------
 
 -- Q9. For each category: how many orders, how much revenue,
---     and what share of each. Does a category with many orders
---     also bring in the most money?
+--     and what share of each.
 
 
 
 
 -- Q10. Revenue per order by region, not total revenue.
---      Which region ranks highest this way, and does it match
---      the ranking from Q6?
 
 
 
