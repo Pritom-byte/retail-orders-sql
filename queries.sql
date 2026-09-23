@@ -1,9 +1,6 @@
 -- ============================================================
 -- Retail Orders — SQL practice
 -- Database: retail_orders.db
---
--- Each question below gets answered as I work through it.
--- Unanswered ones are left blank on purpose.
 -- ============================================================
 
 
@@ -62,6 +59,84 @@ ORDER BY revenue DESC;
 
 -- Q6. Total revenue by region.
 
+SELECT customers.region,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+JOIN products ON orders.product_id = products.product_id
+GROUP BY customers.region
+ORDER BY revenue DESC;
+
+
+-- Q7. Total revenue by product category.
+
+SELECT products.category,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN products ON orders.product_id = products.product_id
+GROUP BY products.category
+ORDER BY revenue DESC;
+
+
+-- Q8. Which employee handled the most revenue?
+
+SELECT employees.employee_name,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN employees ON orders.employee_id = employees.employee_id
+JOIN products ON orders.product_id = products.product_id
+GROUP BY employees.employee_name
+ORDER BY revenue DESC;
+
+
+-- ------------------------------------------------------------
+-- PART 4 — Comparing totals against ratios
+-- ------------------------------------------------------------
+
+-- Q9. Orders and revenue by category, with each category's
+--     share of the total order count.
+
+SELECT products.category,
+       COUNT(*) AS orders,
+       ROUND(SUM(orders.qty * products.price), 2) AS revenue,
+       ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM orders), 1) AS order_share_pct
+FROM orders
+JOIN products ON orders.product_id = products.product_id
+GROUP BY products.category
+ORDER BY revenue DESC;
+
+
+-- Q10. Revenue per order by region, rather than total revenue.
+
+SELECT customers.region,
+       COUNT(*) AS orders,
+       ROUND(SUM(orders.qty * products.price), 2) AS revenue,
+       ROUND(SUM(orders.qty * products.price) / COUNT(*), 2) AS revenue_per_order
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+JOIN products ON orders.product_id = products.product_id
+GROUP BY customers.region
+ORDER BY revenue_per_order DESC;
+
+
+-- ------------------------------------------------------------
+-- What I found
+-- ------------------------------------------------------------
+
+-- By category (Q7 and Q9):
+--   ____________ had the most orders (__ of 35) but earned only €__________.
+--   ____________ had far fewer orders (__) and earned €__________.
+--
+-- By region (Q6 and Q10):
+--   ____________ has the highest total revenue.
+--   But ____________ earns the most per order — €________ against €________.
+--
+-- What this means:
+--   _____________________________________________________________
+--   _____________________________________________________________
 SELECT customers.region,
        COUNT(*) AS orders,
        SUM(orders.qty * products.price) AS revenue
