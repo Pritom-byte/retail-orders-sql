@@ -34,34 +34,87 @@ ORDER BY date_employed ASC;
 
 
 -- ------------------------------------------------------------
--- PART 2 — Joining two tables
+-- PART 2 — Joining tables
 -- ------------------------------------------------------------
 
 -- Q4. What is each order worth?
---     Join orders to products, multiply qty by price.
+
+SELECT orders.order_id, products.product_name, orders.qty, products.price,
+       orders.qty * products.price AS revenue
+FROM orders
+JOIN products ON orders.product_id = products.product_id
+ORDER BY revenue DESC;
 
 
+-- Q5. Which customer bought what, and what was each order worth?
 
-
--- Q5. List every order with the product name next to it,
---     most expensive order first.
-
-
+SELECT orders.order_id, customers.customer_name, products.product_name,
+       orders.qty * products.price AS revenue
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+JOIN products ON orders.product_id = products.product_id
+ORDER BY revenue DESC;
 
 
 -- ------------------------------------------------------------
--- PART 3 — Joining three tables
+-- PART 3 — Grouping and totalling
 -- ------------------------------------------------------------
 
 -- Q6. Total revenue by region.
 
-
+SELECT customers.region,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+JOIN products ON orders.product_id = products.product_id
+GROUP BY customers.region
+ORDER BY revenue DESC;
 
 
 -- Q7. Total revenue by product category.
 
+SELECT products.category,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN products ON orders.product_id = products.product_id
+GROUP BY products.category
+ORDER BY revenue DESC;
 
 
+-- Q8. Which employee handled the most revenue?
+
+SELECT employees.employee_name,
+       COUNT(*) AS orders,
+       SUM(orders.qty * products.price) AS revenue
+FROM orders
+JOIN employees ON orders.employee_id = employees.employee_id
+JOIN products ON orders.product_id = products.product_id
+GROUP BY employees.employee_name
+ORDER BY revenue DESC;
+
+
+-- ------------------------------------------------------------
+-- PART 4 — Still to do
+-- ------------------------------------------------------------
+
+-- Q9. For each category: how many orders, how much revenue,
+--     and what share of each.
+
+
+
+
+-- Q10. Revenue per order by region, not total revenue.
+
+
+
+
+-- ------------------------------------------------------------
+-- What I found
+-- ------------------------------------------------------------
+
+-- (To write up.)
 
 -- Q8. Which employee handled the most revenue?
 
