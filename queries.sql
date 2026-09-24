@@ -122,18 +122,3 @@ GROUP BY customers.region
 ORDER BY revenue_per_order DESC;
 
 
--- ------------------------------------------------------------
--- What I found
--- ------------------------------------------------------------
-
--- By category (Q7 and Q9):
---   ____________ had the most orders (__ of 35) but earned only €__________.
---   ____________ had far fewer orders (__) and earned €__________.
---
--- By region (Q6 and Q10):
---   ____________ has the highest total revenue.
---   But ____________ earns the most per order — €________ against €________.
---
--- What this means:
---   _____________________________________________________________
---   _____________________________________________________________
